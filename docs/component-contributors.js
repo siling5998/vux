@@ -6,23 +6,25 @@ const fs = require('fs')
 const _ = require('lodash')
 
 const componentsPath = path.join(__dirname, '../src/components/**/metas.yml')
+console.log("componentsPath:   "+componentsPath);
 const components = glob.sync(componentsPath)
 
 const format = JSON.stringify({
-  hash: '%H',
-  authorName: '%an',
-  authorEmail: '%ae',
-  date: '%aI',
+  "'hash'": "'%H'",
+  "'authorName'": "'%an'",
+  "'authorEmail'": "'%ae'",
+  "'date'": "'%aI'",
   // subject: '%s'
 })
 
 components.map(one => one.replace('/metas.yml', '')).forEach(one => {
   const name = one.split('components/')[1]
   const metaFile = path.join(__dirname, `./zh-CN/components/${name}_git_metas.json`)
-  const rs = shell.exec(`git log --pretty='format:${format},' -- ${one}`, {
+  const rs = shell.exec(`git log --pretty=format:'${format}', -- ${one}`, {
     silent: true
   })
-  let str = `[${rs.stdout.slice(0, -1).replace(/\n/g, ' ').replace(/"/g, '\"')}]`
+  //let str = `[${rs.stdout.slice(0, -1).replace(/\n/g, ' ').replace(/"/g, '\"')}]`
+  let str = `[${rs.stdout.replace(/\n/g, ' ').slice(1, -2).replace(/"/g, '\"').replace(/'{/g,'\{').replace(/}'/g,'\}').replace(/'/g, '\"')}]`
   str = JSON.parse(str)
   const result = {
     commitCount: str.length,

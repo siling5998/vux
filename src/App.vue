@@ -17,7 +17,7 @@
       <!-- drawer content -->
       <div slot="drawer">
         <group title="Drawer demo(beta)" style="margin-top:20px;">
-          <cell title="Demo" link="/demo" value="演示" @click.native="drawerVisibility = false">
+          <cell title="Demo" link="/demo" value="微信演示" @click.native="drawerVisibility = false">
           </cell>
           <cell title="Buy me a coffee" link="project/donate" @click.native="drawerVisibility = false">
           </cell>
